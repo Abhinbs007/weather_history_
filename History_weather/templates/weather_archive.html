@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Archive</title>
+</head>
+<body>
+    <h1>Weather Archive Data</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="location_name">Location Name:</label>
+        <input type="text" id="location_name" name="location_name" placeholder="e.g., Delhi" required>
+        <br>
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required>
+        <br>
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" required>
+        <br>
+        <button type="submit">Get  Data</button>
+    </form>
+
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    {% if weather_data %}
+        <h2>Daily Weather Data</h2>
+        <table border="1">
+            <tr>
+                <th>Date</th>
+                <th>Temp Max (°C)</th>
+                <th>Temp Min (°C)</th>
+                <th>Temp Mean (°C)</th>
+                <th>Apparent Temp Max (°C)</th>
+                <th>Apparent Temp Min (°C)</th>
+                <th>Apparent Temp Mean (°C)</th>
+                <th>Daylight Duration (s)</th>
+                <th>Precipitation Sum (mm)</th>
+                <th>Rain Sum (mm)</th>
+                <th>Snowfall Sum (mm)</th>
+                <th>Precipitation Hours</th>
+                <th>Wind Speed Max (m/s)</th>
+                <th>Wind Gusts Max (m/s)</th>
+                <th>Wind Direction Dominant (°)</th>
+                <th>Shortwave Radiation Sum (MJ/m²)</th>
+            </tr>
+            {% for row in weather_data %}
+            <tr>
+                <td>{{ row.date }}</td>
+                <td>{{ row.temperature_2m_max }}</td>
+                <td>{{ row.temperature_2m_min }}</td>
+                <td>{{ row.temperature_2m_mean }}</td>
+                <td>{{ row.apparent_temperature_max }}</td>
+                <td>{{ row.apparent_temperature_min }}</td>
+                <td>{{ row.apparent_temperature_mean }}</td>
+                <td>{{ row.daylight_duration }}</td>
+                <td>{{ row.precipitation_sum }}</td>
+                <td>{{ row.rain_sum }}</td>
+                <td>{{ row.snowfall_sum }}</td>
+                <td>{{ row.precipitation_hours }}</td>
+                <td>{{ row.wind_speed_10m_max }}</td>
+                <td>{{ row.wind_gusts_10m_max }}</td>
+                <td>{{ row.wind_direction_10m_dominant }}</td>
+                <td>{{ row.shortwave_radiation_sum }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>
